@@ -4,15 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>demoooo</title>
-    <%-include('./partials/style.ejs') %>
 </head>
 <body>
-   <%-include('./partials/nav.ejs') %>
     <h1 class="heading">Hello world</h1>
+    <form action="/todo" method="post">
+      <input name="todo" type="text" placeholder="enter todo">
+      <input type="submit">
+    </form>
     <ul>
-        <% result.forEach(element =>{ %>
-            <li> <%=element.name %></li>
-      <%  }) %>
+        <% result.forEach(item =>{ %>
+            <li><a href="" style="text-decoration: none;"><%=item.todo %></a></li>
+      <% }) %>
     </ul>
 </body>
 </html>
