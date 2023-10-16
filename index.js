@@ -58,4 +58,15 @@ app.put("/updateTodo", (req, res) => {
     })
     .catch((err) => console.log(err));
 });
+
+app.delete('/todo/:id',(req,res)=>{
+  const id = req.params.id
+  TodoModel.findByIdAndDelete(id)
+  .then(result => {
+    console.log('Here is delete result', result)
+    res.json({redirectPath: '/'})
+  })
+  .catch(err => console.log(err))
+})
+
 app.listen(3000);

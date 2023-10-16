@@ -1,20 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>demoooo</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1 class="heading">Hello world</h1>
     <form action="/todo" method="post">
-      <input name="todo" type="text" placeholder="enter todo">
-      <input type="submit">
+      <input name="todo" type="text" placeholder="enter todo" />
+      <input type="submit" />
     </form>
     <ul>
-        <% result.forEach(item =>{ %>
-            <li><a href="" style="text-decoration: none;"><%=item.todo %></a></li>
-      <% }) %>
+      <% result.forEach( item => { %>
+      <li>
+        <a href="/todo/<%= item._id %>"><%= item.todo %></a>
+        <button type="button" id="<%= item._id %>" class="delete">
+          Delete
+        </button>
+      </li>
+      <% } ) %>
     </ul>
-</body>
+    <script>
+      document.addEventListener("click", (e) => {
+        console.log(e.target.id);
+        if (e.target.classList.contains("delete")) {
+          fetch(`/todo/${e.target.id}`, {
+            method: "DELETE",
+          })
+            .then((res) => res.json())
+            .then((data) => (window.location.href = data.redirectPath))
+            .catch((err) => console.log(err));
+        }
+      });
+    </script>
+  </body>
 </html>
