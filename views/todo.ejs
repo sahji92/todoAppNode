@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <h1 class="heading">Current Todo</h1>
+        <form>
+            <input
+             id="todo"
+             name="todo"
+             type="text"
+             value=<%= result.todo %>
+             >
+            <input id="todoId" type="hidden" name="id" value=<%= result._id %>>
+            <input type="submit" id="submit">
+        </form>
+        <script>
+
+            const todo = document.getElementById("todo");
+            let todoText = todo.value
+            let todoId = document.getElementById("todoId").value
+            todo.addEventListener('keyup',(e)=>{
+                todoText = e.target.value
+                console.log(todoText)
+            })
+
+            document.getElementById("submit").addEventListener('click', async (e) => {
+    e.preventDefault();
+
+    // Assuming you have correctly populated todoId and todoText
+    let data = {
+        id: todoId,
+        todo: todoText
+    }
+
+    console.log(JSON.stringify(data));
+
+    try {
+        const response = await fetch('/updateTodo', {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ id: todoId, todo: todoText }),
+        });
+
+        if (!response.ok) {
+            // Handle non-2xx responses (e.g., server error)
+            console.log('Error:', response.status, response.statusText);
+        } else {
+            // Assuming successful response contains JSON data
+            const result = await response.json();
+            console.log('Response:', result);
+        }
+    } catch (error) {
+        // Handle network errors or other exceptions
+        console.error('Fetch Error:', error);
+    }
+});
+
+        </script>
+    </body>
+</html>
